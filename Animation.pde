@@ -16,12 +16,12 @@ public class Animation implements Visible {
     this.to = to;
     if(from != null || to != null) {
       if(from == null) {
-        this.from = new Frame(to.x,to.y,to.rotate,0,0);
+        this.from = new Frame(new PVector(to.position.x,to.position.y,BACKSTAGE_POSITION_Z),to.rotate.copy(),0,0);
       }
       else if(to == null) {
-        this.to = new Frame(from.x,from.y,from.rotate,0,0);
+        this.to = new Frame(new PVector(from.position.x,from.position.y,BACKSTAGE_POSITION_Z),from.rotate.copy(),0,0);
       }
-      this.current = new Frame(this.from.x,this.from.y,this.from.rotate,this.from.scalar,this.from.alpha);
+      this.current = new Frame(this.from.position.copy(),this.from.rotate.copy(),this.from.scalar,this.from.alpha);
       progress = 0;
       available = true;
     }
@@ -38,14 +38,15 @@ public class Animation implements Visible {
       progress = 1;
     }
 
-    float x = lerp(from.x,to.x,progress);
-    float y = lerp(from.y,to.y,progress);
+    float x = lerp(from.position.x,to.position.x,progress);
+    float y = lerp(from.position.y,to.position.y,progress);
+    float z = lerp(from.position.z,to.position.z,progress);
     float angleX = lerp(from.rotate.x,to.rotate.x,progress);
     float angleY = lerp(from.rotate.y,to.rotate.y,progress);
     float angleZ = lerp(from.rotate.z,to.rotate.z,progress);
     float scalar = lerp(from.scalar,to.scalar,progress);
     float alpha = lerp(from.alpha,to.alpha,progress);
-    current = new Frame(int(x),int(y),new PVector(angleX,angleY,angleZ),scalar,alpha);
+    current = new Frame(new PVector(x,y,z),new PVector(angleX,angleY,angleZ),scalar,alpha);
   }
   
   public boolean isRunning() {
@@ -60,7 +61,7 @@ public class Animation implements Visible {
       run(elapsedMills);
     }
     pushMatrix();
-    translate(current.x,current.y);
+    translate(current.position.x,current.position.y,current.position.z);
     scale(current.scalar);
     rotateX(current.rotate.x);
     rotateY(current.rotate.y);

@@ -18,22 +18,22 @@ public class Layout {
     this.type = type;
     switch (type) {
       case LAYOUT_FULL_SCREEN:
-            detail.put(LOCATION_CENTER,new Frame(int(SIZE.x/2),int(SIZE.y/2),new PVector(),2,255));                  
+            detail.put(LOCATION_CENTER,new Frame(new PVector(SIZE.x/2,SIZE.y/2),new PVector(),1,255));                  
             break;
       case LAYOUT_TWO_PANELS_LANDSCAPE:
-            detail.put(LOCATION_LEFT,new Frame(int(SIZE.x/3/2),int(SIZE.y/2),new PVector(),0.5,255));
-            detail.put(LOCATION_RIGHT,new Frame(int(SIZE.x/3*2),int(SIZE.y/2),new PVector(),1.5,255));
+            detail.put(LOCATION_LEFT,new Frame(new PVector(SIZE.x/3/2,SIZE.y/2),new PVector(),0.5,255));
+            detail.put(LOCATION_RIGHT,new Frame(new PVector(SIZE.x/3*2,SIZE.y/2),new PVector(),1,255));
             break;
       case LAYOUT_TWO_PANELS_PORTRAIT:
-            detail.put(LOCATION_TOP,new Frame(int(SIZE.x/2),int(SIZE.y/3),new PVector(),0.8,255));
-            detail.put(LOCATION_BOTTOM,new Frame(int(SIZE.x/2),int(SIZE.y/3*2),new PVector(),1,255));
+            detail.put(LOCATION_TOP,new Frame(new PVector(SIZE.x/2,SIZE.y/3),new PVector(PI/3,0,0),1,255));
+            detail.put(LOCATION_BOTTOM,new Frame(new PVector(SIZE.x/2,SIZE.y/3*2),new PVector(),1,255));
             break;      
       case LAYOUT_ALL_PANELS:
-            detail.put(LOCATION_CENTER,new Frame(int(SIZE.x/2),int(SIZE.y/2),new PVector(),1,255));  
-            detail.put(LOCATION_LEFT,new Frame(int(SIZE.x/8),int(SIZE.y/2),new PVector(0,PI/3,0),0.7,255));
-            detail.put(LOCATION_RIGHT,new Frame(int(SIZE.x/8*7),int(SIZE.y/2),new PVector(),0.5,255));
-            detail.put(LOCATION_TOP,new Frame(int(SIZE.x/2),int(SIZE.y/4),new PVector(),0.5,255));
-            detail.put(LOCATION_BOTTOM,new Frame(int(SIZE.x/2),int(SIZE.y/4*3),new PVector(),0.5,255));
+            detail.put(LOCATION_CENTER,new Frame(new PVector(SIZE.x/2,SIZE.y/2),new PVector(),1,255));  
+            detail.put(LOCATION_LEFT,new Frame(new PVector(SIZE.x/8,SIZE.y/2),new PVector(0,PI/3,0),0.7,255));
+            detail.put(LOCATION_RIGHT,new Frame(new PVector(SIZE.x/8*7,SIZE.y/2),new PVector(),0.5,255));
+            detail.put(LOCATION_TOP,new Frame(new PVector(SIZE.x/2,SIZE.y/4),new PVector(),0.5,255));
+            detail.put(LOCATION_BOTTOM,new Frame(new PVector(SIZE.x/2,SIZE.y/4*3),new PVector(),0.5,255));
             break;        
     }
   }
