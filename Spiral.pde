@@ -23,7 +23,7 @@ public class Spiral {
     main.addLayout(new Layout(Layout.LAYOUT_TWO_PANELS_LANDSCAPE));
     main.addLayout(new Layout(Layout.LAYOUT_TWO_PANELS_PORTRAIT));
     main.addLayout(new Layout(Layout.LAYOUT_ALL_PANELS));
-    main.setNextLayout(Layout.LAYOUT_TWO_PANELS_LANDSCAPE);
+    main.setNextLayout(Layout.LAYOUT_FULL_SCREEN);
     availableScenes.put(Scene.TYPE_MAIN,main);
     
     //TODO : end scene

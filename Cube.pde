@@ -17,6 +17,7 @@ void settings() {
 void setup() {
   rectMode(CENTER);
   ellipseMode(RADIUS);
+  imageMode(CENTER);
   frameRate(FRAME_RATE);
   init();
   //network.init();
@@ -25,17 +26,39 @@ void setup() {
 public void init() {
  locationMapping = new VisibleLocationMapping();
  spiral = new Spiral();
- spiral.addPanel(Scene.TYPE_WELCOME,new Panel("GameDisplayName",new PVector(40,40)));
- spiral.addPanel(Scene.TYPE_MAIN,new Panel("SelfGamePanel",new PVector(100,100)));
- spiral.addPanel(Scene.TYPE_MAIN,new Panel("RemoteGamePanel1",new PVector(100,100)));
- spiral.addPanel(Scene.TYPE_MAIN,new Panel("RemoteGamePanel2",new PVector(100,100)));
- spiral.addPanel(Scene.TYPE_MAIN,new Panel("RemoteGamePanel3",new PVector(100,100)));
- spiral.addPanel(Scene.TYPE_MAIN,new Panel("RemoteGamePanel4",new PVector(100,100)));
+ Panel welcomePanel = new Panel("GameDisplayName",new PVector(40,40));
+ 
+ Widget circle = new Widget("Circle",new PVector(20,20),new PVector(20,20));
+ circle.asShape(Shape.CIRCLE);
+ circle.attachToPanel(welcomePanel);
+ spiral.addPanel(Scene.TYPE_WELCOME,welcomePanel);
+ 
+ spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel("SelfGamePanel")));
+ spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel("RemoteGamePanel1")));
+ spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel("RemoteGamePanel2")));
+ spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel("RemoteGamePanel3")));
+ spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel("RemoteGamePanel4")));
  currentMills = millis();
 }
 
+private Panel attachRandomShapeWidgets(Panel panel) {
+  Widget widget;
+  int randomShapeType;
+  int span = int(DEFAULT_PANEL_SIZE.x/CELL_NUM_OF_FIRST_LEVEL_GAME_PANEL);
+  int offsetOfWidgetCenter = span/2;
+  for(int i=0;i<CELL_NUM_OF_FIRST_LEVEL_GAME_PANEL;i++) {
+    for(int j=0;j<CELL_NUM_OF_FIRST_LEVEL_GAME_PANEL;j++) {
+      randomShapeType = int(random(1,3));
+      widget = new Widget("Shape_" + i + "_" + j, new PVector((2*i+1)*offsetOfWidgetCenter,(2*j+1)*offsetOfWidgetCenter),new PVector(offsetOfWidgetCenter,offsetOfWidgetCenter));
+      widget.asShape(randomShapeType);
+      widget.attachToPanel(panel);
+    }
+  }
+  return panel;
+}
+
 void draw() {
-  background(125);
+  background(0);
   previousMills = currentMills;
   currentMills =  millis();
   elapsedMills = currentMills - previousMills;
