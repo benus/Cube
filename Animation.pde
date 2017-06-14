@@ -6,7 +6,7 @@ public class Animation implements Visible {
   Frame from,to,current;// from refers the first frame, to refers to the last frame.
   float progress = -1; //it is a rate about animation progress
   boolean available; //if there is no from and to set, this animation should not be drawed
-  
+
   public Animation(Panel panel) {
     this.panel = panel;
   }
@@ -16,12 +16,12 @@ public class Animation implements Visible {
     this.to = to;
     if(from != null || to != null) {
       if(from == null) {
-        this.from = new Frame(new PVector(to.position.x,to.position.y,BACKSTAGE_POSITION_Z),to.rotate.copy(),0,0);
+        this.from = new Frame(new PVector(to.position.x,to.position.y,BACKSTAGE_POSITION_Z),to.rotate.copy(),to.rotateOffset.copy(),0,0);
       }
       else if(to == null) {
-        this.to = new Frame(new PVector(from.position.x,from.position.y,BACKSTAGE_POSITION_Z),from.rotate.copy(),0,0);
+        this.to = new Frame(new PVector(from.position.x,from.position.y,BACKSTAGE_POSITION_Z),from.rotate.copy(),from.rotateOffset.copy(),0,0);
       }
-      this.current = new Frame(this.from.position.copy(),this.from.rotate.copy(),this.from.scalar,this.from.alpha);
+      this.current = new Frame(this.from.position.copy(),this.from.rotate.copy(),this.from.rotateOffset.copy(),this.from.scalar,this.from.alpha);
       progress = 0;
       available = true;
     }
@@ -44,9 +44,12 @@ public class Animation implements Visible {
     float angleX = lerp(from.rotate.x,to.rotate.x,progress);
     float angleY = lerp(from.rotate.y,to.rotate.y,progress);
     float angleZ = lerp(from.rotate.z,to.rotate.z,progress);
+    float rotateOffsetX = lerp(from.rotateOffset.x,to.rotateOffset.x,progress);
+    float rotateOffsetY = lerp(from.rotateOffset.y,to.rotateOffset.y,progress);
+    float rotateOffsetZ = lerp(from.rotateOffset.z,to.rotateOffset.z,progress);
     float scalar = lerp(from.scalar,to.scalar,progress);
     float alpha = lerp(from.alpha,to.alpha,progress);
-    current = new Frame(new PVector(x,y,z),new PVector(angleX,angleY,angleZ),scalar,alpha);
+    current = new Frame(new PVector(x,y,z),new PVector(angleX,angleY,angleZ),new PVector(rotateOffsetX,rotateOffsetY,rotateOffsetZ),scalar,alpha);
   }
   
   public boolean isRunning() {
@@ -61,11 +64,14 @@ public class Animation implements Visible {
       run(elapsedMills);
     }
     pushMatrix();
-    translate(current.position.x,current.position.y,current.position.z);
+    //rotateOffset is used to make the rotation center is different from object center, eg. rotation around one side of object
+    translate(current.position.x + current.rotateOffset.x,current.position.y + current.rotateOffset.y,current.position.z + current.rotateOffset.z);
+    //translate(0,0,current.position.z); //to make the visible object looks bigger or smaller
     scale(current.scalar);
     rotateX(current.rotate.x);
     rotateY(current.rotate.y);
     rotateZ(current.rotate.z);
+    translate(-current.rotateOffset.x,-current.rotateOffset.y,-current.rotateOffset.z);
     fill(MY_MAIN_PANEL_COLOR,current.alpha);//TODO: change fill to title 
     panel.draw(elapsedMills);
     popMatrix();

@@ -21,6 +21,8 @@ void setup() {
   frameRate(FRAME_RATE);
   init();
   //network.init();
+  //String[] fontList = PFont.list();
+  //printArray(fontList);
 }
 
 public void init() {
@@ -29,7 +31,8 @@ public void init() {
  Panel welcomePanel = new Panel("GameDisplayName",new PVector(40,40));
  
  Widget circle = new Widget("Circle",new PVector(20,20),new PVector(20,20));
- circle.asShape(Shape.CIRCLE);
+ //circle.asShape(Shape.CIRCLE);
+ circle.asFont("Cube is a game");
  circle.attachToPanel(welcomePanel);
  spiral.addPanel(Scene.TYPE_WELCOME,welcomePanel);
  
@@ -69,7 +72,7 @@ void mouseDragged() {
   if(spiral.currentScene.type == Scene.TYPE_MAIN) {
     int layoutType = spiral.currentScene.currentLayout.type;
     layoutType++;
-    if(layoutType > 4) {
+    if(layoutType > 6) {
       layoutType = 1;
      }
     spiral.currentScene.setNextLayout(layoutType);

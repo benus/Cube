@@ -21,9 +21,9 @@ public class Panel implements Visible{
   }
   
   public void draw(int elapsedMills) {
-    rect(0,0,size.x,size.y);//border of panel
+    //rect(0,0,size.x,size.y);//border of panel
     pg.beginDraw();
-    pg.background(255);
+    //pg.background(0);
     for(Visible visible : visibleObjects) {
       visible.draw(elapsedMills);
     }

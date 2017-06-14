@@ -14,6 +14,14 @@ public class VisibleLocationMapping {
     mapping.put(Scene.TYPE_MAIN + DELIMITER + Layout.LAYOUT_TWO_PANELS_PORTRAIT + DELIMITER + "SelfGamePanel",Layout.LOCATION_BOTTOM);
     mapping.put(Scene.TYPE_MAIN + DELIMITER + Layout.LAYOUT_TWO_PANELS_PORTRAIT + DELIMITER + "RemoteGamePanel1",Layout.LOCATION_TOP);
     
+    mapping.put(Scene.TYPE_MAIN + DELIMITER + Layout.LAYOUT_THREE_PANELS_LANDSCAPE + DELIMITER + "SelfGamePanel",Layout.LOCATION_CENTER);
+    mapping.put(Scene.TYPE_MAIN + DELIMITER + Layout.LAYOUT_THREE_PANELS_LANDSCAPE + DELIMITER + "RemoteGamePanel1",Layout.LOCATION_LEFT);
+    mapping.put(Scene.TYPE_MAIN + DELIMITER + Layout.LAYOUT_THREE_PANELS_LANDSCAPE + DELIMITER + "RemoteGamePanel2",Layout.LOCATION_RIGHT);
+        
+    mapping.put(Scene.TYPE_MAIN + DELIMITER + Layout.LAYOUT_THREE_PANELS_PORTRAIT + DELIMITER + "SelfGamePanel",Layout.LOCATION_CENTER);
+    mapping.put(Scene.TYPE_MAIN + DELIMITER + Layout.LAYOUT_THREE_PANELS_PORTRAIT + DELIMITER + "RemoteGamePanel1",Layout.LOCATION_TOP);
+    mapping.put(Scene.TYPE_MAIN + DELIMITER + Layout.LAYOUT_THREE_PANELS_PORTRAIT + DELIMITER + "RemoteGamePanel2",Layout.LOCATION_BOTTOM);
+    
     mapping.put(Scene.TYPE_MAIN + DELIMITER + Layout.LAYOUT_ALL_PANELS + DELIMITER + "SelfGamePanel",Layout.LOCATION_CENTER);
     mapping.put(Scene.TYPE_MAIN + DELIMITER + Layout.LAYOUT_ALL_PANELS + DELIMITER + "RemoteGamePanel1",Layout.LOCATION_LEFT);    
     mapping.put(Scene.TYPE_MAIN + DELIMITER + Layout.LAYOUT_ALL_PANELS + DELIMITER + "RemoteGamePanel2",Layout.LOCATION_TOP);
