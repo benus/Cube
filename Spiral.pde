@@ -9,7 +9,7 @@ public class Spiral {
   
   int status; 
   Scene currentScene,nextScene; 
-  private Map<Integer,Scene> availableScenes = new HashMap<Integer,Scene>();//<layout type,layout>
+  private HashMap<Integer,Scene> availableScenes = new HashMap<Integer,Scene>();//<layout type,layout>
   
   public Spiral() {
     Scene welcome = new Scene(Scene.TYPE_WELCOME);

@@ -1,6 +1,6 @@
 public class VisibleLocationMapping {
   private static final String DELIMITER = ":";
-  Map<String,Integer> mapping = new HashMap<String,Integer>();//<scene:layout:panelName,location>
+  HashMap<String,Integer> mapping = new HashMap<String,Integer>();//<scene:layout:panelName,location>
   
   public VisibleLocationMapping() {
     //Scene "WELCOME"

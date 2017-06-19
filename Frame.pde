@@ -10,10 +10,6 @@ public class Frame {
       this.alpha  = alpha;
     }
     
-    public Frame(PVector position,float scalar,float alpha) {
-      this(position,new PVector(),new PVector(),scalar,alpha);
-    }
-    
     public Frame(PVector position,PVector rotate,PVector rotateOffset,float scalar) {
       this(position,rotate,rotateOffset,scalar,255);
     }
@@ -22,28 +18,12 @@ public class Frame {
       this(position,rotate,rotateOffset,1,255);
     }
     
-    public Frame(float x,float y,float scalar,float alpha) {
-      this(new PVector(x,y,0),new PVector(),new PVector(),scalar,alpha);
-    }
-    
-    public Frame(float x,float y,float z,float scalar,float alpha) {
-      this(new PVector(x,y,z),new PVector(),new PVector(),scalar,alpha);
-    }
-    
-    public Frame(float x, float y,float scalar) {
-      this(new PVector(x,y),scalar,255);
-    }
-    
     public Frame(PVector position,float scalar) {
-      this(position,scalar,255);
-    }
-    
-    public Frame(float x, float y) {
-      this(new PVector(x,y));
+      this(position,new PVector(),new PVector(),scalar,255);
     }
     
     public Frame(PVector position) {
-      this(position,1,255);
+      this(position,new PVector(),new PVector(),1,255);
     }
     
     public String toString() {

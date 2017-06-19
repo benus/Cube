@@ -1,5 +1,3 @@
-import java.util.Map;
-
 static final int NUM_LAYERS = 3;
 static final int LAYER_BACKGROUND = 0;
 static final int LAYER_MAIN = 1;
@@ -9,16 +7,18 @@ int elapsedMills,currentMills,previousMills;
 Spiral spiral;
 VisibleLocationMapping locationMapping;
 
-void settings() {
+/*void settings() {//not working in processingjs
   //fullScreen();
   size(int(SIZE.x),int(SIZE.y),P3D); //TODO: change to a better size or auto-resizble.
-}
+}*/
 
 void setup() {
+  size(180,320,P3D);
   rectMode(CENTER);
   ellipseMode(RADIUS);
-  imageMode(CENTER);
+  imageMode(CENTER);//not woriking in processingjs
   frameRate(FRAME_RATE);
+  smooth();
   init();
   //network.init();
   //String[] fontList = PFont.list();
@@ -31,8 +31,8 @@ public void init() {
  Panel welcomePanel = new Panel("GameDisplayName",new PVector(40,40));
  
  Widget circle = new Widget("Circle",new PVector(20,20),new PVector(20,20));
- //circle.asShape(Shape.CIRCLE);
- circle.asFont("Cube is a game");
+ circle.asShape(Shape.CIRCLE);
+ //circle.asFont("Cube is a game");
  circle.attachToPanel(welcomePanel);
  spiral.addPanel(Scene.TYPE_WELCOME,welcomePanel);
  
@@ -79,3 +79,11 @@ void mouseDragged() {
     spiral.currentScene.switchLayout();
   }
 }
+
+/*
+void touchStart(TouchEvent touchEvent);
+void touchMove(TouchEvent touchEvent);
+void touchEnd(TouchEvent touchEvent);
+void touchCancel(TouchEvent touchEvent);
+touchEvent.touches array. offsetX and offsetY attributes of each element represent the position relative to the canvas, and can go outside the canvas
+*/

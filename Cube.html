@@ -1,0 +1,53 @@
+<script type="text/javascript" src="client.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="adapter.js"></script>
+<script src="processing.min.js"></script>
+<script>
+//copy from Jeanine's solution in  Processing forum
+var d = document;
+function init(){
+    d.addEventListener("touchdrag", touchHandler, true);
+    d.addEventListener("touchstart", touchHandler, true);
+    d.addEventListener("touchmove", touchHandler, true);
+    d.addEventListener("touchend", touchHandler, true);
+    d.addEventListener("touchcancel", touchHandler, true); 
+
+
+}   
+function touchHandler(event)
+{
+    var touches = event.changedTouches;
+	if (touches.length>1) {
+		return false;
+	}
+   var first = touches[0];
+    var type = "";
+         switch(event.type)
+    {
+        case "touchstart": type = "mousedown"; break;
+        case "touchmove":  type="mousemove"; break;        
+        case "touchend":   type="mouseup"; break;
+        case "touchdrag": type="mousedrag"; break;
+        default: return;
+    }
+  var simulatedEvent = document.createEvent("MouseEvent");
+    simulatedEvent.initMouseEvent(type, true, true, window, 1, 
+                              first.screenX, first.screenY, 
+                              first.clientX, first.clientY, false, 
+                              false, false, false, 0, null);
+    first.target.dispatchEvent(simulatedEvent);
+    event.preventDefault();
+}
+
+
+</script>
+<script type="text/javascript">
+(function() {
+	PVector.prototype.copy = function() {
+		return new PVector(this.x,this.y,this.z);
+	};
+})();
+</script>
+<body onload="init();">
+<canvas id="SimpleGo" data-processing-sources="cube/Cube.pde cube/Animation.pde cube/Frame.pde cube/Layout.pde cube/LayoutHelper.pde cube/Panel.pde cube/Scene.pde cube/Settings.pde cube/Shape.pde cube/Spiral.pde cube/Visible.pde cube/VisibleLocationMapping.pde cube/Widget.pde"></canvas>
+</body>

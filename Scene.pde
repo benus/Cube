@@ -13,7 +13,7 @@ public class Scene {
   int during;
   Integer lifeMills; //refers to mills of this scene will stay without enterruptted by outside
   Layout currentLayout,nextLayout;
-  private Map<Integer,Layout> availableLayouts = new HashMap<Integer,Layout>();//<layout type,layout>
+  private HashMap<Integer,Layout> availableLayouts = new HashMap<Integer,Layout>();//<layout type,layout>
   //PGraphics[] layers = new PGraphics[NUM_LAYERS];//pending to implement the layers
   ArrayList<Animation> animations = new ArrayList<Animation>();
   
@@ -91,7 +91,7 @@ public class Scene {
   //the current or next layout maybe is null for scenario of appearing and disappearing
   public void switchLayout() {
     if(!isReady() && during > 0) {
-      println("Scene(" + type + ") is switching layout, waiting for completion");
+      //println("Scene(" + type + ") is switching layout, waiting for completion");
       return;
     }
     Integer currentLocation = null,nextLocation = null;
@@ -103,7 +103,7 @@ public class Scene {
         nextLocation = locationMapping.getLocation(this,nextLayout,animation.panel.name);
       }//println("name:" + animation.panel.name + ",layout:" + (nextLayout==null?null:nextLayout.type) + ",current:" + currentLocation + ",next:" + nextLocation);
       if(currentLocation != null || nextLocation != null) {
-        animation.setPath(((currentLocation==null)?null:currentLayout.detail.get(currentLocation)),((nextLayout==null)?null:nextLayout.detail.get(nextLocation)));
+        animation.setPath(((currentLocation==null)?null:currentLayout.detail.get(currentLocation)),((nextLocation==null)?null:nextLayout.detail.get(nextLocation)));
       }
     }
     this.currentLayout = this.nextLayout;

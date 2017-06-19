@@ -14,7 +14,7 @@ public class Layout {
 
   private int type;
   //detail defines the accurate postion and apperance of visible objects in the specific location
-  private Map<Integer,Frame> detail = new HashMap<Integer,Frame>();//<Location,Frame>
+  private HashMap<Integer,Frame> detail = new HashMap<Integer,Frame>();//<Location,Frame>
   
   public Layout(int type) {
     this.type = type;
