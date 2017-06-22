@@ -1,4 +1,12 @@
 public class Panel implements Visible{
+  public static final String NAME_OF_WELCOME_PANEL="GameNamePanel";
+  public static final String NAME_OF_DEMO_PANEL="GameDemoPanel";
+  public static final String NAME_OF_MAIN_PANEL="SelfGamePanel";
+  public static final String NAME_OF_REMOTE_PANEL_1="RemoteGamePanel1";
+  public static final String NAME_OF_REMOTE_PANEL_2="RemoteGamePanel2";
+  public static final String NAME_OF_REMOTE_PANEL_3="RemoteGamePanel3";
+  public static final String NAME_OF_REMOTE_PANEL_4="RemoteGamePanel4";
+  
   String name;
   PVector size;
   PGraphics pg;
@@ -28,7 +36,7 @@ public class Panel implements Visible{
       visible.draw(elapsedMills);
     }
     pg.endDraw();
-    image(pg.get(),-size.x/2,-size.y/2,size.x,size.y);//processingjs does not support imageMode(center) in P3D
-    //image(pg.get(),0,0,size.x,size.y);
+    //image(pg.get(),-size.x/2,-size.y/2,size.x,size.y);//processingjs does not support imageMode(center) in P3D
+    image(pg.get(),0,0,size.x,size.y);
 ;  }
 }

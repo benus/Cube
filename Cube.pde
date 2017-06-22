@@ -6,6 +6,7 @@ static final int LAYER_INFOMATION = 2;
 int elapsedMills,currentMills,previousMills;
 Spiral spiral;
 VisibleLocationMapping locationMapping;
+Controller controller;
 
 /*void settings() {//not working in processingjs
   //fullScreen();
@@ -27,20 +28,21 @@ void setup() {
 
 public void init() {
  locationMapping = new VisibleLocationMapping();
+ controller = new Controller();
  spiral = new Spiral();
- Panel welcomePanel = new Panel("GameDisplayName",new PVector(40,40));
+ Panel welcomePanel = new Panel(Panel.NAME_OF_WELCOME_PANEL,new PVector(40,40));
  
  Widget circle = new Widget("Circle",new PVector(20,20),new PVector(20,20));
- circle.asShape(Shape.CIRCLE);
- //circle.asFont("Cube is a game");
+ //circle.asShape(Shape.CIRCLE);
+ circle.asFont("Cube is a game");
  circle.attachToPanel(welcomePanel);
  spiral.addPanel(Scene.TYPE_WELCOME,welcomePanel);
  
- spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel("SelfGamePanel")));
- spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel("RemoteGamePanel1")));
- spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel("RemoteGamePanel2")));
- spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel("RemoteGamePanel3")));
- spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel("RemoteGamePanel4")));
+ spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel(Panel.NAME_OF_MAIN_PANEL)));
+ spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel(Panel.NAME_OF_REMOTE_PANEL_1)));
+ spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel(Panel.NAME_OF_REMOTE_PANEL_2)));
+ spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel(Panel.NAME_OF_REMOTE_PANEL_3)));
+ spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel(Panel.NAME_OF_REMOTE_PANEL_4)));
  currentMills = millis();
 }
 
@@ -69,7 +71,10 @@ void draw() {
 }
 
 void mouseDragged() {
-  if(spiral.currentScene.type == Scene.TYPE_MAIN) {
+  
+  controller.handleInteraction(Controller.EVENT_DRAGGING);
+  /*if(spiral.currentScene.type == Scene.TYPE_MAIN) {
+    
     int layoutType = spiral.currentScene.currentLayout.type;
     layoutType++;
     if(layoutType > 6) {
@@ -77,7 +82,11 @@ void mouseDragged() {
      }
     spiral.currentScene.setNextLayout(layoutType);
     spiral.currentScene.switchLayout();
-  }
+  }*/
+}
+
+void mouseClicked() {
+  controller.handleInteraction(Controller.EVENT_SHORT_CLICK); //<>//
 }
 
 /*

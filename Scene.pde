@@ -30,7 +30,8 @@ public class Scene {
   }
   
   public void addPanel(Panel panel) {
-    animations.add(new Animation(panel));
+    Animation panelLayer = new Animation(panel);
+    animations.add(panelLayer);
   }
   
   public void setCurrentLayout(int layoutType) {

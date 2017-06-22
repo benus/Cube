@@ -63,6 +63,12 @@ public class Animation implements Visible {
     if(isRunning()) {
       run(elapsedMills);
     }
+    else {//a weird thing happens in processingjs. the disappeared panel will pop up agin. try to do not paint it while the saclar is much small.
+      //println(panel.name + ",z=" + current.position.z + ",scalar="+ current.scalar);
+      if(current.scalar <= 0.1) {
+        return;
+      }
+    }
     pushMatrix();
     //rotateOffset is used to make the rotation center is different from object center, eg. rotation around one side of object
     translate(current.position.x + current.rotateOffset.x,current.position.y + current.rotateOffset.y,current.position.z + current.rotateOffset.z);

@@ -4,6 +4,7 @@ public class Widget implements Visible {
   Panel panel;
   ArrayList<PVector> vertices;
   String words;
+  boolean showBorder;
   
   public Widget(String name,PVector position,PVector size) {
     this.name = name;
@@ -21,6 +22,10 @@ public class Widget implements Visible {
     vertices = shape.getVertices();
   }
   
+  public void transformTo(int shapeType) {
+    
+  }
+  
   public void asFont(String words) {
     PFont font = createFont("Georgia",16);
     textFont(font);
@@ -31,8 +36,9 @@ public class Widget implements Visible {
   public void draw(int elapsedMills) {
     if(panel != null) {
       panel.pg.pushMatrix();
-      panel.pg.fill(125,125);
       panel.pg.translate(position.x,position.y);
+      panel.pg.fill(125,125);
+      panel.pg.noStroke();
       if(vertices != null && !vertices.isEmpty()) {
         panel.pg.beginShape();
         for(PVector vertex : vertices) {
@@ -43,7 +49,16 @@ public class Widget implements Visible {
       else if(words != null) {
         text(words,0,0);
       }
+      if(showBorder) {
+        panel.pg.noFill();
+        panel.pg.stroke(255,0,0,125);
+        panel.pg.rect(0,0,size.x,size.y);
+      }
       panel.pg.popMatrix();
     }
+  }
+  
+  public void toggleBorder() {
+    showBorder = !showBorder;
   }
 }
