@@ -16,6 +16,9 @@ public class Controller {
         }
         break;
       }
+      else {
+        handleLayoutChange(event);
+      }
     }
   }
   
@@ -48,7 +51,7 @@ public class Controller {
   }
   
   private void handleWidget(Widget widget) {
-        widget.toggleBorder();
+        //widget.toggleBorder();
   }
   
   private void stopHandleWidget(Widget widget) {
@@ -65,25 +68,36 @@ public class Controller {
   }
   
   private void handleLayoutChange(int event) {
-    int layoutType = spiral.currentScene.currentLayout.type;
-    layoutType++;
-    if(layoutType > 6) {
-      layoutType = 1;
-     }
-    spiral.currentScene.setNextLayout(layoutType);
-    spiral.currentScene.switchLayout();
+    if(event == Controller.EVENT_DRAGGING) {
+      int layoutType = spiral.currentScene.currentLayout.type;
+      layoutType++;
+      if(layoutType > 6) {
+        layoutType = 1;
+       }
+      spiral.currentScene.setNextLayout(layoutType);
+      spiral.currentScene.switchLayout();
+    }
   }
   
   private boolean isInside(Animation animation,Widget widget) {
-    PVector halfSize = widget==null?PVector.div(animation.panel.size,2):PVector.div(widget.size,2);
-    PVector offset = widget==null?new PVector():PVector.sub(widget.position,PVector.div(animation.panel.size,2));
-    PVector center = PVector.add(animation.current.position,offset);
-    PVector topLeft = PVector.sub(center,halfSize);
-    PVector bottomRight = PVector.add(center,halfSize);
-    if(mouseX >= topLeft.x && mouseX <= bottomRight.x &&
-       mouseY >= topLeft.y && mouseY <= bottomRight.y) {
-         return true;
-       }
+    if(animation.current != null) {
+      PVector halfSize = widget==null?PVector.div(animation.panel.size,2):PVector.div(widget.size,2);
+      PVector offset = widget==null?new PVector():PVector.sub(widget.position,PVector.div(animation.panel.size,2));
+      PVector center = PVector.add(animation.current.position,offset);
+      PVector topLeft = PVector.sub(center,halfSize);
+      PVector bottomRight = PVector.add(center,halfSize);
+      //maybe the animation scaled
+      PVector topLeftToPanelCenter = PVector.sub(topLeft,animation.current.position);
+      topLeftToPanelCenter.mult(animation.current.scalar);
+      topLeft = PVector.add(animation.current.position,topLeftToPanelCenter);
+      PVector bottomRightToPanelCenter = PVector.sub(bottomRight,animation.current.position);
+      bottomRightToPanelCenter.mult(animation.current.scalar);
+      bottomRight = PVector.add(animation.current.position,bottomRightToPanelCenter);
+      if(mouseX >= topLeft.x && mouseX <= bottomRight.x &&
+         mouseY >= topLeft.y && mouseY <= bottomRight.y) {
+           return true;
+         }
+    }
     return false;
   }
   

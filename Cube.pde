@@ -85,7 +85,7 @@ void mouseDragged() {
   }*/
 }
 
-void mouseClicked() {
+void mouseReleased() {
   controller.handleInteraction(Controller.EVENT_SHORT_CLICK); //<>//
 }
 

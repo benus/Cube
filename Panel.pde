@@ -16,7 +16,7 @@ public class Panel implements Visible{
     this.name = name;
     this.size = size;
     pg = createGraphics(int(size.x), int(size.y), P2D);
-    pg.rectMode(CENTER);
+    pg.rectMode(CENTER);//seems this command is not working in processing, but is working in processing.js
     pg.ellipseMode(RADIUS);
   }
   
@@ -36,7 +36,7 @@ public class Panel implements Visible{
       visible.draw(elapsedMills);
     }
     pg.endDraw();
-    //image(pg.get(),-size.x/2,-size.y/2,size.x,size.y);//processingjs does not support imageMode(center) in P3D
-    image(pg.get(),0,0,size.x,size.y);
+    image(pg.get(),-size.x/2,-size.y/2,size.x,size.y);//processingjs does not support imageMode(center) in P3D
+    //image(pg.get(),0,0,size.x,size.y);
 ;  }
 }
