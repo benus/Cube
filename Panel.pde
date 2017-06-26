@@ -31,12 +31,12 @@ public class Panel implements Visible{
   public void draw(int elapsedMills) {
     //rect(0,0,size.x,size.y);//border of panel
     pg.beginDraw();
-    //pg.background(0);
+    pg.background(0);
     for(Visible visible : visibleObjects) {
       visible.draw(elapsedMills);
     }
     pg.endDraw();
-    image(pg.get(),-size.x/2,-size.y/2,size.x,size.y);//processingjs does not support imageMode(center) in P3D
-    //image(pg.get(),0,0,size.x,size.y);
+    //image(pg.get(),-size.x/2,-size.y/2,size.x,size.y);//processingjs does not support imageMode(center) in P3D
+    image(pg.get(),0,0,size.x,size.y);
 ;  }
 }

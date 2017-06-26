@@ -2,9 +2,12 @@ public class Widget implements Visible {
   String name;
   PVector position,size;
   Panel panel;
+  int shapeType;
   ArrayList<PVector> vertices;
   String words;
   boolean showBorder;
+  color frontColor = color(125);
+  boolean isDisabled;
   
   public Widget(String name,PVector position,PVector size) {
     this.name = name;
@@ -18,8 +21,17 @@ public class Widget implements Visible {
   }
   
   public void asShape(int shapeType) {
+    this.shapeType = shapeType;
     Shape shape = new Shape(shapeType);
     vertices = shape.getVertices();
+  }
+  
+  public void disable() {
+    this.isDisabled = true;
+  }
+  
+  public void enable() {
+    this.isDisabled = false;
   }
   
   public void transformTo(int shapeType) {
@@ -37,7 +49,7 @@ public class Widget implements Visible {
     if(panel != null) {
       panel.pg.pushMatrix();
       panel.pg.translate(position.x,position.y);
-      panel.pg.fill(125,125);
+      panel.pg.fill(frontColor,125);
       panel.pg.noStroke();
       if(vertices != null && !vertices.isEmpty()) {
         panel.pg.beginShape();

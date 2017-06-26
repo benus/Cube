@@ -19,7 +19,17 @@ public static final float MARGIN = SIZE.x > SIZE.y?SIZE.x/8:SIZE.y/8; //the magr
 public static final color OPACITY = 25;
 public final color MY_MAIN_PANEL_COLOR = color(125);
 public final color OTHER_MAIN_PANEL_COLOR = color(255,0,0);
+public final color RED = color(255,0,0);
+public final color BLUE = color(0,0,255);
+public final color GREEN = color(0,255,0);
+public final color YELLOW = color(255,255,0);
+public final color PURPLE = color(208,47,168);
+public final color GREY = color(125);
 
 //Life circle of each scene
-public final int LIFE_MILLIS_SCENE_WELCOME = 3000;
-public final int CELL_NUM_OF_FIRST_LEVEL_GAME_PANEL= 3;
+public static final int LIFE_MILLIS_SCENE_WELCOME = 3000;
+public static final int CELL_NUM_OF_FIRST_LEVEL_GAME_PANEL= 3;
+
+//interaction setting
+public static final int LONG_PRESS_MILLIS = 500;
+public static final int DOUBLE_CLICK_INTERVAL = 500;

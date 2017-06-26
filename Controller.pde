@@ -1,23 +1,71 @@
 public class Controller {
-  public static final int EVENT_SHORT_CLICK = 1;
-  public static final int EVENT_LONG_CLICK = 2;
-  public static final int EVENT_DRAGGING = 3;
-  public static final int EVENT_DRAG_RELEASE = 4;
+  public static final int ORIGINAL_EVENT_CLICK = 1;
+  public static final int ORIGINAL_EVENT_PRESS = 2;
+  public static final int ORIGINAL_EVENT_DRAGGING = 3;
+  public static final int ORIGINAL_EVENT_RELEASE = 4;
+  public static final int EVENT_SHORT_CLICK = 5;
+  public static final int EVENT_DOUBLE_CLICK = 6;
+  public static final int EVENT_LONG_PRESS = 7;
+
+  
+  private int pressedTime;
+  private int clickIntervalTime;
+  boolean isFirstClicked;
+  boolean isPressed,isLongPressedEventTriggered;
+  Menu commonMenu,specialMenu;
+  
+  public void run(int elapsedMills) {
+    pressedTime += elapsedMills;
+    if(isFirstClicked) {
+      clickIntervalTime += elapsedMills;
+    }
+    if(isPressed && pressedTime > LONG_PRESS_MILLIS) {
+      if(!isLongPressedEventTriggered) {
+        isLongPressedEventTriggered = true;
+        handleInteraction(EVENT_LONG_PRESS);
+      }
+    }
+  }
+  
+  private int handleEvent(int originalEvent) {
+    switch(originalEvent) {
+      case ORIGINAL_EVENT_PRESS:
+        pressedTime = 0;
+        isPressed = true;
+        break;
+      case ORIGINAL_EVENT_RELEASE:
+        isPressed = false;
+        isLongPressedEventTriggered = false;
+        break;
+      case ORIGINAL_EVENT_CLICK:
+        if(isFirstClicked && clickIntervalTime <= DOUBLE_CLICK_INTERVAL) {
+          isFirstClicked = false;
+          return EVENT_DOUBLE_CLICK;
+        }
+        else {
+          isFirstClicked = true;
+        }
+        clickIntervalTime = 0;
+        break;
+    }
+    return originalEvent;
+  }
   
   public void handleInteraction(int event) {
+    int derivedEVent = handleEvent(event);
     ArrayList<Animation> animations = spiral.currentScene.animations; //<>//
     for(Animation animation : animations) {
       if(isInside(animation,null)) {
         if(animation.panel.name.equals(Panel.NAME_OF_MAIN_PANEL)) {
-          handleMainPanel(animation,event);
+          handleMainPanel(animation,derivedEVent);
         }
         else {
-          handleLayoutChange(event);
+          handleLayoutChange(derivedEVent);
         }
         break;
       }
       else {
-        handleLayoutChange(event);
+        handleLayoutChange(derivedEVent);
       }
     }
   }
@@ -26,16 +74,16 @@ public class Controller {
     Widget widget = getFocusedwidget(animation); //<>//
     if(widget != null) {
       switch(event) {
-        case EVENT_SHORT_CLICK:
+        case EVENT_LONG_PRESS:
             showCommonMenu(widget);
             break;
-        case EVENT_LONG_CLICK:
+        case EVENT_DOUBLE_CLICK:
             showSpecialMenu(widget);
             break;
-        case EVENT_DRAGGING:
+        case ORIGINAL_EVENT_DRAGGING:
             handleWidget(widget);
             break;
-        case EVENT_DRAG_RELEASE:
+        case ORIGINAL_EVENT_RELEASE:
             stopHandleWidget(widget);
             break;
       }
@@ -43,11 +91,19 @@ public class Controller {
   }
   
   private void showSpecialMenu(Widget widget) {
-
+    println("double click on " + widget.name);
   }
   
-  private void showCommonMenu(Widget widget) {println("click on " + widget.name);
-    widget.toggleBorder();
+  private void showCommonMenu(Widget widget) {println("long press on " + widget.name);
+    if(commonMenu != null) {
+      for(int widgetColor : gameColors) {
+        if(widgetColor != widget.frontColor) {
+          commonMenu.addAvailableColor(widgetColor);
+        }
+      }
+      commonMenu.setShape(widget.shapeType);
+      commonMenu.show(widget.position);
+    }
   }
   
   private void handleWidget(Widget widget) {
@@ -55,7 +111,9 @@ public class Controller {
   }
   
   private void stopHandleWidget(Widget widget) {
-    
+    if(commonMenu != null) {
+      commonMenu.disappear();
+    }
   }
   
   private Widget getFocusedwidget(Animation animation) {
@@ -68,7 +126,7 @@ public class Controller {
   }
   
   private void handleLayoutChange(int event) {
-    if(event == Controller.EVENT_DRAGGING) {
+    if(event == Controller.ORIGINAL_EVENT_DRAGGING) {
       int layoutType = spiral.currentScene.currentLayout.type;
       layoutType++;
       if(layoutType > 6) {

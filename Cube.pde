@@ -7,7 +7,8 @@ int elapsedMills,currentMills,previousMills;
 Spiral spiral;
 VisibleLocationMapping locationMapping;
 Controller controller;
-
+int cellNumOfLevel;
+ArrayList<Integer> gameColors = new ArrayList<Integer>();
 /*void settings() {//not working in processingjs
   //fullScreen();
   size(int(SIZE.x),int(SIZE.y),P3D); //TODO: change to a better size or auto-resizble.
@@ -27,6 +28,12 @@ void setup() {
 }
 
 public void init() {
+ gameColors.add(RED);
+ gameColors.add(BLUE);
+ gameColors.add(GREEN);
+ gameColors.add(YELLOW);
+ gameColors.add(PURPLE);
+ cellNumOfLevel = CELL_NUM_OF_FIRST_LEVEL_GAME_PANEL;
  locationMapping = new VisibleLocationMapping();
  controller = new Controller();
  spiral = new Spiral();
@@ -38,21 +45,27 @@ public void init() {
  circle.attachToPanel(welcomePanel);
  spiral.addPanel(Scene.TYPE_WELCOME,welcomePanel);
  
- spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel(Panel.NAME_OF_MAIN_PANEL)));
- spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel(Panel.NAME_OF_REMOTE_PANEL_1)));
- spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel(Panel.NAME_OF_REMOTE_PANEL_2)));
- spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel(Panel.NAME_OF_REMOTE_PANEL_3)));
- spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel(Panel.NAME_OF_REMOTE_PANEL_4)));
+ Panel mainPanel = new Panel(Panel.NAME_OF_MAIN_PANEL);
+ Menu commonMenu = new Menu("commonMenu",new PVector(),new PVector());//the menu position and size is not predefined
+ int cellWidth = int(DEFAULT_PANEL_SIZE.x/cellNumOfLevel/2);
+ PVector cellSize = new PVector(cellWidth,cellWidth);
+ commonMenu.attachToPanel(mainPanel);
+ commonMenu.init(Menu.LAYOUT_SQUARE,cellSize);
+ controller.commonMenu = commonMenu;
+ 
+ spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(mainPanel,cellWidth));
+ spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel(Panel.NAME_OF_REMOTE_PANEL_1),cellWidth));
+ spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel(Panel.NAME_OF_REMOTE_PANEL_2),cellWidth));
+ spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel(Panel.NAME_OF_REMOTE_PANEL_3),cellWidth));
+ spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel(Panel.NAME_OF_REMOTE_PANEL_4),cellWidth));
  currentMills = millis();
 }
 
-private Panel attachRandomShapeWidgets(Panel panel) {
+private Panel attachRandomShapeWidgets(Panel panel,int offsetOfWidgetCenter) {
   Widget widget;
   int randomShapeType;
-  int span = int(DEFAULT_PANEL_SIZE.x/CELL_NUM_OF_FIRST_LEVEL_GAME_PANEL);
-  int offsetOfWidgetCenter = span/2;
-  for(int i=0;i<CELL_NUM_OF_FIRST_LEVEL_GAME_PANEL;i++) {
-    for(int j=0;j<CELL_NUM_OF_FIRST_LEVEL_GAME_PANEL;j++) {
+  for(int i=0;i<cellNumOfLevel;i++) {
+    for(int j=0;j<cellNumOfLevel;j++) {
       randomShapeType = int(random(1,3));
       widget = new Widget("Shape_" + i + "_" + j, new PVector((2*i+1)*offsetOfWidgetCenter,(2*j+1)*offsetOfWidgetCenter),new PVector(offsetOfWidgetCenter,offsetOfWidgetCenter));
       widget.asShape(randomShapeType);
@@ -67,29 +80,43 @@ void draw() {
   previousMills = currentMills;
   currentMills =  millis();
   elapsedMills = currentMills - previousMills;
+  controller.run(elapsedMills);
   spiral.run(elapsedMills);
 }
 
+private boolean isInMainScene() {
+  if(spiral.currentScene != null && spiral.currentScene.type == Scene.TYPE_MAIN) {
+    return true;
+  }
+  return false;
+}
+
+private void handleEvent(int event) {
+  if(isInMainScene()) {
+    controller.handleInteraction(event);
+  }
+}
+
 void mouseDragged() {
-  
-  controller.handleInteraction(Controller.EVENT_DRAGGING);
-  /*if(spiral.currentScene.type == Scene.TYPE_MAIN) {
-    
-    int layoutType = spiral.currentScene.currentLayout.type;
-    layoutType++;
-    if(layoutType > 6) {
-      layoutType = 1;
-     }
-    spiral.currentScene.setNextLayout(layoutType);
-    spiral.currentScene.switchLayout();
-  }*/
+  if(isInMainScene()) {
+      controller.handleInteraction(Controller.ORIGINAL_EVENT_DRAGGING);
+  }
+}
+
+void mousePressed() {
+  handleEvent(Controller.ORIGINAL_EVENT_PRESS);
 }
 
 void mouseReleased() {
-  controller.handleInteraction(Controller.EVENT_SHORT_CLICK); //<>//
+  handleEvent(Controller.ORIGINAL_EVENT_RELEASE); //<>//
+}
+
+void mouseClicked() {
+  handleEvent(Controller.ORIGINAL_EVENT_CLICK);
 }
 
 /*
+mouseEvent.getClickCount();
 void touchStart(TouchEvent touchEvent);
 void touchMove(TouchEvent touchEvent);
 void touchEnd(TouchEvent touchEvent);
