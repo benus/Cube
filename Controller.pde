@@ -13,6 +13,7 @@ public class Controller {
   boolean isFirstClicked;
   boolean isPressed,isLongPressedEventTriggered;
   Menu commonMenu,specialMenu;
+  Widget focusedWidget;
   
   public void run(int elapsedMills) {
     pressedTime += elapsedMills;
@@ -89,7 +90,7 @@ public class Controller {
       }
     }
     else if(ORIGINAL_EVENT_RELEASE == event) {
-      stopHandleWidget(widget);//TODO: stop all event
+      stopHandleWidget(null);//TODO: stop all event
     }
   }
   
@@ -106,6 +107,7 @@ public class Controller {
       }
       commonMenu.setShape(widget.shapeType);
       commonMenu.show(widget.position);
+      focusedWidget = widget;
     }
   }
   
@@ -114,11 +116,13 @@ public class Controller {
   }
   
   private void stopHandleWidget(Widget widget) {
-    if(widget != null) {      
-      println("release on " + widget.name);
-    }
-    if(commonMenu != null) {
+    if(commonMenu != null && commonMenu.showing) {
       commonMenu.disappear();
+      if(widget != null) {      
+         //println("release on " + widget.name + ".color:" + focusedWidget.frontColor + ",item.color" + widget.frontColor);
+         focusedWidget.frontColor = widget.frontColor;
+         //println("after release on " + widget.name + ".color:" + focusedWidget.frontColor);
+      }
     }
   }
   
