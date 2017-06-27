@@ -33,6 +33,10 @@ public class Menu extends Widget  {
     }  
   }
   
+  public ArrayList<Widget> getItems() {
+    return menuItems;
+  }
+  
   public void addAvailableColor(color colorCode) {
     availbeColors.add(colorCode);
   }

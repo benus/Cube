@@ -55,7 +55,7 @@ public class Controller {
     int derivedEVent = handleEvent(event);
     ArrayList<Animation> animations = spiral.currentScene.animations; //<>//
     for(Animation animation : animations) {
-      if(isInside(animation,null)) {
+      if(isInside(animation)) {
         if(animation.panel.name.equals(Panel.NAME_OF_MAIN_PANEL)) {
           handleMainPanel(animation,derivedEVent);
         }
@@ -88,6 +88,9 @@ public class Controller {
             break;
       }
     }
+    else if(ORIGINAL_EVENT_RELEASE == event) {
+      stopHandleWidget(widget);//TODO: stop all event
+    }
   }
   
   private void showSpecialMenu(Widget widget) {
@@ -111,15 +114,20 @@ public class Controller {
   }
   
   private void stopHandleWidget(Widget widget) {
+    if(widget != null) {      
+      println("release on " + widget.name);
+    }
     if(commonMenu != null) {
       commonMenu.disappear();
     }
   }
   
   private Widget getFocusedwidget(Animation animation) {
+    Widget focusedWidget = null;
     for(Visible visible : animation.panel.visibleObjects) {
-      if(isInside(animation,(Widget)visible)) {
-        return (Widget)visible;
+      focusedWidget = getFocusedWidget(animation,(Widget)visible);
+      if(focusedWidget != null) {
+        return focusedWidget;
       }
     }
     return null;
@@ -137,10 +145,37 @@ public class Controller {
     }
   }
   
-  private boolean isInside(Animation animation,Widget widget) {
+   private Widget getFocusedWidget(Animation animation,Widget widget) {
+     if(widget instanceof Menu) {
+       boolean isFocused = false;
+       for(Widget item : ((Menu)widget).getItems()) {
+           isFocused = this.isWidgetFocused(animation,item,widget.position);
+           if(isFocused) {
+             return item;
+           }
+       }
+     }
+     else {
+       if(this.isWidgetFocused(animation,widget,new PVector())) {
+         return widget;
+       }
+     }
+     return null;
+   }
+   
+  private boolean isInside(Animation animation) {
+    return isWidgetFocused(animation,null,new PVector());
+  }
+  
+  //outsideOffset refers to the offset is out of the widget, is based on a middle layer position.
+  private boolean isWidgetFocused(Animation animation,Widget widget,PVector outSideOffset) {
     if(animation.current != null) {
       PVector halfSize = widget==null?PVector.div(animation.panel.size,2):PVector.div(widget.size,2);
-      PVector offset = widget==null?new PVector():PVector.sub(widget.position,PVector.div(animation.panel.size,2));
+      PVector offset = new PVector();
+      if(widget != null) {
+        offset = PVector.add(widget.position,outSideOffset);
+        offset.sub(PVector.div(animation.panel.size,2));
+      }
       PVector center = PVector.add(animation.current.position,offset);
       PVector topLeft = PVector.sub(center,halfSize);
       PVector bottomRight = PVector.add(center,halfSize);

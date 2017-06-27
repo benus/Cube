@@ -25,6 +25,7 @@ public final color GREEN = color(0,255,0);
 public final color YELLOW = color(255,255,0);
 public final color PURPLE = color(208,47,168);
 public final color GREY = color(125);
+public final Integer[] colors = {RED,BLUE,GREEN,YELLOW,PURPLE};
 
 //Life circle of each scene
 public static final int LIFE_MILLIS_SCENE_WELCOME = 3000;
