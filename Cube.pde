@@ -52,6 +52,7 @@ public void init() {
  commonMenu.attachToPanel(mainPanel);
  commonMenu.init(Menu.LAYOUT_SQUARE,cellSize);
  controller.commonMenu = commonMenu;
+ controller.synTarget = mainPanel;
  
  spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(mainPanel,cellWidth));
  spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel(Panel.NAME_OF_REMOTE_PANEL_1),cellWidth));

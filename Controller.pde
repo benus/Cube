@@ -14,6 +14,7 @@ public class Controller {
   boolean isPressed,isLongPressedEventTriggered;
   Menu commonMenu,specialMenu;
   Widget focusedWidget;
+  Panel synTarget;
   
   public void run(int elapsedMills) {
     pressedTime += elapsedMills;
@@ -196,6 +197,14 @@ public class Controller {
          }
     }
     return false;
+  }
+  
+  public String getGameCellValues() {
+    
+  }
+  
+  public String synGameCellValue(Widget widget) {
+    net.synData(widget.position,widget.frontColor);
   }
   
   public void handleSynchronizatoin(String synData) {
