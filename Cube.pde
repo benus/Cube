@@ -69,6 +69,7 @@ private Panel attachRandomShapeWidgets(Panel panel,int offsetOfWidgetCenter) {
       randomShapeType = int(random(1,3));
       widget = new Widget("Shape_" + i + "_" + j, new PVector((2*i+1)*offsetOfWidgetCenter,(2*j+1)*offsetOfWidgetCenter),new PVector(offsetOfWidgetCenter,offsetOfWidgetCenter));
       widget.asShape(randomShapeType);
+      widget.type = Widget.TYPE_GAME_CELL;
       widget.frontColor = colors[int(random(0,5))];
       widget.attachToPanel(panel);
     }

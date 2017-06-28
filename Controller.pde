@@ -118,7 +118,7 @@ public class Controller {
   private void stopHandleWidget(Widget widget) {
     if(commonMenu != null && commonMenu.showing) {
       commonMenu.disappear();
-      if(widget != null) {      
+      if(widget != null && widget.type ==  Widget.TYPE_MENU_ITEM) {      
          //println("release on " + widget.name + ".color:" + focusedWidget.frontColor + ",item.color" + widget.frontColor);
          focusedWidget.frontColor = widget.frontColor;
          //println("after release on " + widget.name + ".color:" + focusedWidget.frontColor);

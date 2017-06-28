@@ -8,6 +8,7 @@ public class Menu extends Widget  {
   
   public Menu(String name,PVector position,PVector size) {
     super(name,position,size);
+    this.type = Widget.TYPE_MENU;
   }
   
   public void init(int layout,PVector itemSize) {
@@ -17,16 +18,14 @@ public class Menu extends Widget  {
       Widget bottomItem = new Widget("BottomItem",new PVector(0,itemSize.y),itemSize);
       Widget leftItem = new Widget("LeftItem",new PVector(-itemSize.x,0),itemSize);
       Widget rightItem = new Widget("RightItem",new PVector(itemSize.x,0),itemSize);
-      if(panel != null) {
-        topItem.panel = panel;
-        bottomItem.panel = panel;
-        leftItem.panel = panel;
-        rightItem.panel = panel;
-      }
       menuItems.add(topItem);
       menuItems.add(bottomItem);
       menuItems.add(leftItem);
       menuItems.add(rightItem);
+      for(Widget item : menuItems) {
+        item.panel = panel;
+        item.type = Widget.TYPE_MENU_ITEM;
+      }
     }
     else if(LAYOUT_BAR == layout) {
       

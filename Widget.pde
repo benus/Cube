@@ -1,8 +1,12 @@
 public class Widget implements Visible {
+  public static final int TYPE_GAME_CELL = 1;
+  public static final int TYPE_MENU = 2;
+  public static final int TYPE_MENU_ITEM =3;
+  
   String name;
   PVector position,size;
   Panel panel;
-  int shapeType;
+  int type,shapeType;
   ArrayList<PVector> vertices;
   String words;
   boolean showBorder;
