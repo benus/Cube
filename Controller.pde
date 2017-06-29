@@ -122,6 +122,8 @@ public class Controller {
       if(widget != null && widget.type ==  Widget.TYPE_MENU_ITEM) {      
          //println("release on " + widget.name + ".color:" + focusedWidget.frontColor + ",item.color" + widget.frontColor);
          focusedWidget.frontColor = widget.frontColor;
+         focusedWidget.value = widget.value;
+         synGameCellValue(focusedWidget);
          //println("after release on " + widget.name + ".color:" + focusedWidget.frontColor);
       }
     }
@@ -200,14 +202,69 @@ public class Controller {
   }
   
   public String getGameCellValues() {
-    
+    String values = "";
+    for(Visible cell : synTarget.visibleObjects) {
+      if(((Widget)cell).type == Widget.TYPE_GAME_CELL) {
+        values += ((Widget)cell).value;
+      }
+    }
+    return values;
   }
   
   public String synGameCellValue(Widget widget) {
-    net.synData(widget.position,widget.frontColor);
+    return null;
+    //NetConnector.synData(synTarget.visibleObjects.indexOf(widget),widget.value);
+  }
+  
+  public void updateGameCellValue(int index, int value) {
+    Widget cell = (Widget)synTarget.visibleObjects.get(index);
+    cell.frontColor = value;
   }
   
   public void handleSynchronizatoin(String synData) {
     
+  }
+  
+  public void addRemotePanel(String values) {
+    Scene scene = spiral.currentScene;
+    if(scene.type ==  Scene.TYPE_MAIN) {
+      int nextPanelIndex = scene.animations.size();
+      String remotePanelName = null;
+      switch(nextPanelIndex) {
+        case 1:
+          remotePanelName = Panel.NAME_OF_REMOTE_PANEL_1;
+          break;
+        case 2:
+          remotePanelName = Panel.NAME_OF_REMOTE_PANEL_2;
+          break;
+        case 3:
+          remotePanelName = Panel.NAME_OF_REMOTE_PANEL_3;
+          break;
+        case 4:
+          remotePanelName = Panel.NAME_OF_REMOTE_PANEL_4;
+          break;
+      }
+      Panel remotePanel = new Panel(remotePanelName);
+      int cellWidth = int(DEFAULT_PANEL_SIZE.x/sqrt(values.length())/2);
+      spiral.addPanel(Scene.TYPE_MAIN,attachShapeWidgets(remotePanel,cellWidth,values));
+    }
+  }
+  
+  public Panel attachShapeWidgets(Panel panel,int offsetOfWidgetCenter,String values) {
+    Widget widget;
+    int randomShapeType,widgetValue;
+    for(int i=0;i<cellNumOfLevel;i++) {
+      for(int j=0;j<cellNumOfLevel;j++) {
+        randomShapeType = int(random(1,3));
+        widget = new Widget("Shape_" + i + "_" + j, new PVector((2*i+1)*offsetOfWidgetCenter,(2*j+1)*offsetOfWidgetCenter),new PVector(offsetOfWidgetCenter,offsetOfWidgetCenter));
+        widget.asShape(randomShapeType);
+        widget.type = Widget.TYPE_GAME_CELL;
+        widgetValue = int(values == null?random(0,5):values.charAt(i * cellNumOfLevel + j));
+        widget.value = widgetValue + "";
+        widget.frontColor = colors[widgetValue];
+        widget.attachToPanel(panel);
+      }
+    }
+    return panel;
   }
 }

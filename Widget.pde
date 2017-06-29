@@ -3,7 +3,7 @@ public class Widget implements Visible {
   public static final int TYPE_MENU = 2;
   public static final int TYPE_MENU_ITEM =3;
   
-  String name;
+  String name,value;
   PVector position,size;
   Panel panel;
   int type,shapeType;
