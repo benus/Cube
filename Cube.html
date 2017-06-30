@@ -11,8 +11,6 @@ function init(){
     d.addEventListener("touchmove", touchHandler, true);
     d.addEventListener("touchend", touchHandler, true);
     d.addEventListener("touchcancel", touchHandler, true); 
-
-
 }   
 function touchHandler(event)
 {
@@ -42,6 +40,7 @@ function touchHandler(event)
 
 </script>
 <script type="text/javascript">
+var appName = "Cube";
 (function() {
 	PVector.prototype.copy = function() {
 		return new PVector(this.x,this.y,this.z);
@@ -49,5 +48,5 @@ function touchHandler(event)
 })();
 </script>
 <body onload="init();">
-<canvas id="SimpleGo" data-processing-sources="cube/Cube.pde cube/Animation.pde cube/Frame.pde cube/Layout.pde cube/LayoutHelper.pde cube/Panel.pde cube/Scene.pde cube/Settings.pde cube/Shape.pde cube/Spiral.pde cube/Visible.pde cube/VisibleLocationMapping.pde cube/Widget.pde cube/Controller.pde cube/Menu.pde"></canvas>
+<canvas id="Cube" data-processing-sources="cube/Cube.pde cube/Animation.pde cube/Frame.pde cube/Layout.pde cube/LayoutHelper.pde cube/Panel.pde cube/Scene.pde cube/Settings.pde cube/Shape.pde cube/Spiral.pde cube/Visible.pde cube/VisibleLocationMapping.pde cube/Widget.pde cube/Controller.pde cube/Menu.pde"></canvas>
 </body>

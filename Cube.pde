@@ -8,7 +8,7 @@ Spiral spiral;
 VisibleLocationMapping locationMapping;
 Controller controller;
 int cellNumOfLevel;
-ArrayList<Integer> gameColors = new ArrayList<Integer>();
+
 /*void settings() {//not working in processingjs
   //fullScreen();
   size(int(SIZE.x),int(SIZE.y),P3D); //TODO: change to a better size or auto-resizble.
@@ -22,17 +22,12 @@ void setup() {
   frameRate(FRAME_RATE);
   smooth();
   init();
-  //network.init();
+  NetConnector.init();
   //String[] fontList = PFont.list();
   //printArray(fontList);
 }
 
 public void init() {
- gameColors.add(RED);
- gameColors.add(BLUE);
- gameColors.add(GREEN);
- gameColors.add(YELLOW);
- gameColors.add(PURPLE);
  cellNumOfLevel = CELL_NUM_OF_FIRST_LEVEL_GAME_PANEL;
  locationMapping = new VisibleLocationMapping();
  controller = new Controller();
@@ -55,15 +50,19 @@ public void init() {
  controller.synTarget = mainPanel;
  
  spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(mainPanel,cellWidth));
- spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel(Panel.NAME_OF_REMOTE_PANEL_1),cellWidth));
- spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel(Panel.NAME_OF_REMOTE_PANEL_2),cellWidth));
- spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel(Panel.NAME_OF_REMOTE_PANEL_3),cellWidth));
- spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel(Panel.NAME_OF_REMOTE_PANEL_4),cellWidth));
+ //spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel(Panel.NAME_OF_REMOTE_PANEL_1),cellWidth));
+ //spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel(Panel.NAME_OF_REMOTE_PANEL_2),cellWidth));
+ //spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel(Panel.NAME_OF_REMOTE_PANEL_3),cellWidth));
+ //spiral.addPanel(Scene.TYPE_MAIN,attachRandomShapeWidgets(new Panel(Panel.NAME_OF_REMOTE_PANEL_4),cellWidth));
  currentMills = millis();
 }
 
 private Panel attachRandomShapeWidgets(Panel panel,int offsetOfWidgetCenter) {
   return controller.attachShapeWidgets(panel,offsetOfWidgetCenter,null);
+}
+
+public void go() {
+  //not used, maybe never use. just make the construction consistency with SimeplGo in client.js
 }
 
 void draw() {
@@ -104,6 +103,25 @@ void mouseReleased() {
 
 void mouseClicked() {
   handleEvent(Controller.ORIGINAL_EVENT_CLICK);
+}
+
+void updateNetConnectionNum(int count) {
+  //implement later
+}
+
+public String getLocalGameCellValues() {
+  println("syn values to others: ");
+  return controller.getLocalGameCellValues();
+}
+
+public void updateRemoteGameCellValue(String remotePeerId,int index, String value) {
+  println("get update form : " + remotePeerId);
+  controller.updateRemoteGameCellValue(remotePeerId,index,value);
+}
+
+public void initRemoteGame(String remotePeerId,String values) {
+  println("New peer get connection: " + remotePeerId);
+  controller.initRemoteGame(remotePeerId,values);
 }
 
 /*

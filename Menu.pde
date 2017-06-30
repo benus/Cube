@@ -3,7 +3,7 @@ public class Menu extends Widget  {
   public static final int LAYOUT_BAR = 2;
   private int layout;
   private ArrayList<Widget> menuItems = new ArrayList<Widget>(4);//TODO: Widget for static or Animation for dynamic?
-  private ArrayList<Integer> availbeColors = new ArrayList<Integer>(4); //color
+  private ArrayList<Integer> availbeValues = new ArrayList<Integer>(4); //color
   private boolean showing;
   
   public Menu(String name,PVector position,PVector size) {
@@ -36,17 +36,18 @@ public class Menu extends Widget  {
     return menuItems;
   }
   
-  public void addAvailableColor(color colorCode) {
-    availbeColors.add(colorCode);
+  public void addAvailableValue(int value) {
+    availbeValues.add(value);
   }
   
   public void setShape(int shapeType) {
-    Integer frontColor = null;
     Widget item = null;
+    Integer value = -1;
     for(int i=0;i<menuItems.size();i++) {
-      frontColor = availbeColors.get(i);
       item = menuItems.get(i);
-      item.frontColor = frontColor != null?frontColor:GREY;
+      value = availbeValues.get(i);
+      item.value = (value != null?value + "":null);
+      item.frontColor = (value != null?colors[value]:GREY);
       item.asShape(shapeType);
       if(item.frontColor ==  GREY) {
         item.disable();
@@ -64,7 +65,7 @@ public class Menu extends Widget  {
   
   public void disappear() {
     showing = false;
-    availbeColors.clear();
+    availbeValues.clear();
   }
   
   public void draw(int elapsedMills) {

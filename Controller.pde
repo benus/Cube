@@ -7,7 +7,7 @@ public class Controller {
   public static final int EVENT_DOUBLE_CLICK = 6;
   public static final int EVENT_LONG_PRESS = 7;
 
-  
+  private HashMap<String,Panel> remotePeerIdPanelMap = new HashMap<String,Panel>();
   private int pressedTime;
   private int clickIntervalTime;
   boolean isFirstClicked;
@@ -101,9 +101,9 @@ public class Controller {
   
   private void showCommonMenu(Widget widget) {println("long press on " + widget.name);
     if(commonMenu != null) {
-      for(int widgetColor : gameColors) {
-        if(widgetColor != widget.frontColor) {
-          commonMenu.addAvailableColor(widgetColor);
+      for(int index=0;index<colors.length; index++) {
+        if(index != int(widget.value)) {
+          commonMenu.addAvailableValue(index);
         }
       }
       commonMenu.setShape(widget.shapeType);
@@ -123,7 +123,7 @@ public class Controller {
          //println("release on " + widget.name + ".color:" + focusedWidget.frontColor + ",item.color" + widget.frontColor);
          focusedWidget.frontColor = widget.frontColor;
          focusedWidget.value = widget.value;
-         synGameCellValue(focusedWidget);
+         synLocalGameCellValue(focusedWidget);
          //println("after release on " + widget.name + ".color:" + focusedWidget.frontColor);
       }
     }
@@ -201,7 +201,7 @@ public class Controller {
     return false;
   }
   
-  public String getGameCellValues() {
+  public String getLocalGameCellValues() {
     String values = "";
     for(Visible cell : synTarget.visibleObjects) {
       if(((Widget)cell).type == Widget.TYPE_GAME_CELL) {
@@ -211,43 +211,39 @@ public class Controller {
     return values;
   }
   
-  public String synGameCellValue(Widget widget) {
-    return null;
-    //NetConnector.synData(synTarget.visibleObjects.indexOf(widget),widget.value);
+  public String synLocalGameCellValue(Widget widget) {
+    //return null;
+    NetConnector.synValue(synTarget.visibleObjects.indexOf(widget)-1,widget.value);//the first visible object is menu, so minus 1
   }
   
-  public void updateGameCellValue(int index, int value) {
-    Widget cell = (Widget)synTarget.visibleObjects.get(index);
-    cell.frontColor = value;
+  public void updateRemoteGameCellValue(String remotePeerId,int index, String value) {
+    Widget cell = (Widget)remotePeerIdPanelMap.get(remotePeerId).visibleObjects.get(index);
+    cell.value = value;
+    cell.frontColor = colors[int(value)];
   }
   
-  public void handleSynchronizatoin(String synData) {
-    
-  }
-  
-  public void addRemotePanel(String values) {
-    Scene scene = spiral.currentScene;
-    if(scene.type ==  Scene.TYPE_MAIN) {
-      int nextPanelIndex = scene.animations.size();
-      String remotePanelName = null;
-      switch(nextPanelIndex) {
-        case 1:
-          remotePanelName = Panel.NAME_OF_REMOTE_PANEL_1;
-          break;
-        case 2:
-          remotePanelName = Panel.NAME_OF_REMOTE_PANEL_2;
-          break;
-        case 3:
-          remotePanelName = Panel.NAME_OF_REMOTE_PANEL_3;
-          break;
-        case 4:
-          remotePanelName = Panel.NAME_OF_REMOTE_PANEL_4;
-          break;
-      }
-      Panel remotePanel = new Panel(remotePanelName);
-      int cellWidth = int(DEFAULT_PANEL_SIZE.x/sqrt(values.length())/2);
-      spiral.addPanel(Scene.TYPE_MAIN,attachShapeWidgets(remotePanel,cellWidth,values));
+  public void initRemoteGame(String remotePeerId,String values) {
+    Scene scene = spiral.availableScenes.get(Scene.TYPE_MAIN);
+    int nextPanelIndex = scene.animations.size();
+    String remotePanelName = null;
+    switch(nextPanelIndex) {
+      case 1:
+        remotePanelName = Panel.NAME_OF_REMOTE_PANEL_1;
+        break;
+      case 2:
+        remotePanelName = Panel.NAME_OF_REMOTE_PANEL_2;
+        break;
+      case 3:
+        remotePanelName = Panel.NAME_OF_REMOTE_PANEL_3;
+        break;
+      case 4:
+        remotePanelName = Panel.NAME_OF_REMOTE_PANEL_4;
+        break;
     }
+    Panel remotePanel = new Panel(remotePanelName);
+    remotePeerIdPanelMap.put(remotePeerId,remotePanel);
+    int cellWidth = int(DEFAULT_PANEL_SIZE.x/sqrt(values.length())/2);
+    spiral.addPanel(Scene.TYPE_MAIN,attachShapeWidgets(remotePanel,cellWidth,values));
   }
   
   public Panel attachShapeWidgets(Panel panel,int offsetOfWidgetCenter,String values) {
@@ -266,5 +262,5 @@ public class Controller {
       }
     }
     return panel;
-  }
+  } 
 }
