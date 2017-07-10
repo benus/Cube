@@ -10,8 +10,19 @@ public class Shape {
   
   public Shape(int type) {
     this.type = type;
-    this.size = 10;
-    init();
+    this.size = 20;
+    init2();
+  }
+  
+  private void init2() {
+    boolean isPolygon = random(1)>0.5;
+    int edgeNum = type + 2;
+    if(isPolygon) {
+      polygon(edgeNum,0,0,size,size,-PI/2f);
+    }
+    else {
+      star(edgeNum,0,0,size,size,-PI/2f,0.4f);
+    }
   }
   
   private void init() {
@@ -68,6 +79,38 @@ public class Shape {
   
   private void generateStar() {
     
+  }
+  
+  void polygon(int n,float cx,float cy,float w,float h,float startAngle) {
+    float angle = 2*PI/n;
+    w = w/2f;
+    h = h/2f;
+    
+    beginShape();
+    for(int i=0;i<n;i++) {
+      vertices.add(new PVector(cx + w * cos(startAngle + angle * i), cy + h * sin(startAngle + angle * i)));
+    }
+    endShape(CLOSE);
+  }
+    
+  void star(int n,float cx,float cy,float w,float h,float startAngle,float proportion) {
+    float angle = PI/n;   //2*PI/n/2
+    w = w/2f;
+    h = h/2f;
+    float nw,nh;
+    
+    beginShape();
+    
+    for(int i=0;i<n*2;i++) {
+      nw = w;
+      nh = h;
+      if(i%2 == 1) {
+        nw = w * proportion;
+        nh = h * proportion;
+      }
+      vertices.add(new PVector(cx + nw * cos(startAngle + angle * i), cy + nh * sin(startAngle + angle * i)));
+    }
+    endShape(CLOSE);
   }
   
   public ArrayList<PVector> getVertices() {

@@ -22,7 +22,7 @@ void setup() {
   frameRate(FRAME_RATE);
   smooth();
   init();
-  NetConnector.init();
+  //NetConnector.init();
   //String[] fontList = PFont.list();
   //printArray(fontList);
 }
@@ -32,15 +32,17 @@ public void init() {
  locationMapping = new VisibleLocationMapping();
  controller = new Controller();
  spiral = new Spiral();
- Panel welcomePanel = new Panel(Panel.NAME_OF_WELCOME_PANEL,new PVector(40,40));
+ Panel welcomePanel = new Panel(Panel.NAME_OF_WELCOME_PANEL,new PVector(180,40));
+ welcomePanel.backgroundColor = color(0);
  
- Widget circle = new Widget("Circle",new PVector(20,20),new PVector(20,20));
+ Widget welcome = new Widget("welcome",new PVector(90,20),new PVector(20,20));
  //circle.asShape(Shape.CIRCLE);
- circle.asFont("Cube is a game");
- circle.attachToPanel(welcomePanel);
+ welcome.asFont("Cube is a game");
+ welcome.attachToPanel(welcomePanel);
  spiral.addPanel(Scene.TYPE_WELCOME,welcomePanel);
  
  Panel mainPanel = new Panel(Panel.NAME_OF_MAIN_PANEL);
+ mainPanel.backgroundColor = color(0);
  Menu commonMenu = new Menu("commonMenu",new PVector(),new PVector());//the menu position and size is not predefined
  int cellWidth = int(DEFAULT_PANEL_SIZE.x/cellNumOfLevel/2);
  PVector cellSize = new PVector(cellWidth,cellWidth);

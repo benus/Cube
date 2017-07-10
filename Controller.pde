@@ -212,8 +212,8 @@ public class Controller {
   }
   
   public String synLocalGameCellValue(Widget widget) {
-    //return null;
-    NetConnector.synValue(synTarget.visibleObjects.indexOf(widget)-1,widget.value);//the first visible object is menu, so minus 1
+    return null;
+    //NetConnector.synValue(synTarget.visibleObjects.indexOf(widget)-1,widget.value);//the first visible object is menu, so minus 1
   }
   
   public void updateRemoteGameCellValue(String remotePeerId,int index, String value) {
@@ -251,7 +251,7 @@ public class Controller {
     int randomShapeType,widgetValue;
     for(int i=0;i<cellNumOfLevel;i++) {
       for(int j=0;j<cellNumOfLevel;j++) {
-        randomShapeType = int(random(1,3));
+        randomShapeType = int(random(1,6));
         widget = new Widget("Shape_" + i + "_" + j, new PVector((2*i+1)*offsetOfWidgetCenter,(2*j+1)*offsetOfWidgetCenter),new PVector(offsetOfWidgetCenter,offsetOfWidgetCenter));
         widget.asShape(randomShapeType);
         widget.type = Widget.TYPE_GAME_CELL;

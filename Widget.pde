@@ -9,6 +9,7 @@ public class Widget implements Visible {
   int type,shapeType;
   ArrayList<PVector> vertices;
   String words;
+  PFont font;
   boolean showBorder;
   color frontColor = color(125);
   boolean isDisabled;
@@ -43,9 +44,7 @@ public class Widget implements Visible {
   }
   
   public void asFont(String words) {
-    PFont font = createFont("Georgia",16);
-    textFont(font);
-    textAlign(CENTER, CENTER);
+    font = createFont("Georgia",16);
     this.words = words;
   }
   
@@ -53,17 +52,20 @@ public class Widget implements Visible {
     if(panel != null) {
       panel.pg.pushMatrix();
       panel.pg.translate(position.x,position.y);
-      panel.pg.fill(frontColor,125);
-      panel.pg.noStroke();
+      panel.pg.stroke(frontColor);
+      panel.pg.strokeWeight(2);
+      panel.pg.noFill();
       if(vertices != null && !vertices.isEmpty()) {
         panel.pg.beginShape();
         for(PVector vertex : vertices) {
           panel.pg.vertex(vertex.x,vertex.y);
         }
-        panel.pg.endShape();
+        panel.pg.endShape(CLOSE);
       }
       else if(words != null) {
-        text(words,0,0);
+        panel.pg.textFont(font);
+        panel.pg.textAlign(CENTER, CENTER);
+        panel.pg.text(words,0,0);
       }
       if(showBorder) {
         panel.pg.noFill();

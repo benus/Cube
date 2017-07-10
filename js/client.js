@@ -396,8 +396,8 @@ NetConnector.getDataConnectionNum = function() {
 NetConnector.synOnConnection = function() {
 	if(NetConnector.getApp().getLocalGameCellValues) {//for Cube game
 		var count = NetConnector.getDataConnectionNum();
-		//NetConnector.getApp().updateNetConnectionNum(count);
-		NetConnector.updateNetConnectionNum(count);
+		NetConnector.getApp().updateNetConnectionNum(count);
+		//NetConnector.updateNetConnectionNum(count);
 		var values = NetConnector.getApp().getLocalGameCellValues();
 		NetConnector.syn({values:values});
 	}
@@ -469,8 +469,7 @@ NetConnector.getApp = function() {
 
 //it is a temp function
 NetConnector.updateNetConnectionNum = function(count) {
-	var canvas = document.getElementById(appName);
-	var context = canvas.getContext("2d");
+	var context = NetConnector.getApp.externals.context;
 	if(context) {
 		context.fillStyle = "blue";
 		context.fillText("peers: " + count,5,5);
