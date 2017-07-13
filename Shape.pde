@@ -86,11 +86,9 @@ public class Shape {
     w = w/2f;
     h = h/2f;
     
-    beginShape();
     for(int i=0;i<n;i++) {
       vertices.add(new PVector(cx + w * cos(startAngle + angle * i), cy + h * sin(startAngle + angle * i)));
     }
-    endShape(CLOSE);
   }
     
   void star(int n,float cx,float cy,float w,float h,float startAngle,float proportion) {
@@ -98,9 +96,7 @@ public class Shape {
     w = w/2f;
     h = h/2f;
     float nw,nh;
-    
-    beginShape();
-    
+      
     for(int i=0;i<n*2;i++) {
       nw = w;
       nh = h;
@@ -110,7 +106,6 @@ public class Shape {
       }
       vertices.add(new PVector(cx + nw * cos(startAngle + angle * i), cy + nh * sin(startAngle + angle * i)));
     }
-    endShape(CLOSE);
   }
   
   public ArrayList<PVector> getVertices() {
